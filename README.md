@@ -134,6 +134,18 @@ O alerta mostrou `SELECT * FROM contas WHERE titular = '' OR '1'='1'` retornando
 
 **Placar do grupo após esta decisão:** 🔥 7 · 💰 R$ 15 mil · 🧹 2
 
+## Rodada 3: A noite das contas gêmeas (22h50) · Aula 14
+
+**Tipo:** rodada · **Voto:** D (delegar a numeração ao banco, sequence)
+
+**Justificativa:**
+
+O `getInstancia()` retorna `new GeradorNumeroConta()` a cada chamada: é um **Singleton quebrado** (Aula 14), então o contador recomeça em 1001 e dois clientes receberam o mesmo número de conta. Número de conta é identificador único perante o Bacen, então duplicidade é incidente de compliance. Escolhemos **delegar a numeração ao banco (sequence do Oracle)**: ela é atômica e persistente, não depende da memória da aplicação e atende ao contrato (sequencial, único, gerado pelo sistema). Corrigir só o singleton (A) manteria o contador em memória, que reinicia junto com o servidor. UUID (B) violaria a regra de numeração sequencial. Auditar as duplicatas (C) não impede que novas sejam geradas. O trade-off é demorar mais que o ajuste do singleton, em troca de resolver a causa raiz.
+
+**Consequência (opção D):** arquitetura sólida (~1h de migração de madrugada): o banco garante a unicidade e a aplicação deixa de ser responsável pela numeração. Efeitos: 🔥 0 · 💰 +10 · 🧹 0.
+
+**Placar do grupo após esta decisão:** 🔥 7 · 💰 R$ 25 mil · 🧹 2
+
 ---
 
 ## 🔎 O caminho do MEU grupo (preencher na 3ª aula, quando o mapa for revelado)
