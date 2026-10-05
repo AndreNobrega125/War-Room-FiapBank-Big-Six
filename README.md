@@ -100,6 +100,18 @@ segurança × faturamento × dívida). "Porque é mais seguro" não é justifica
 *(as decisões entram aqui, na ordem em que a madrugada as trouxer; placar inicial:
 🔥 7 · 💰 0 · 🧹 2)*
 
+## Rodada 1: O saldo que virou negativo (19h12)
+
+**Tipo:** rodada · **Voto:** D
+
+**Justificativa:**
+
+Escolhemos o **rollback para a versão de terça** porque o incidente estava ativo (clientes com saldo negativo) e a Black Friday abre às 08h. O rollback é a mitigação mais rápida e previsível: usa o mecanismo de versionamento/deploy já existente, sem escrever código novo às 19h, com o autor do MVP fora da equipe. O bug está no `catch (SaldoInsuficienteException)` de `TransferenciaService.realizar()`, que engole a exceção, e o `debitar()` roda sempre, deixando o saldo negativo. Assumimos o trade-off (velocidade de mitigação × correção definitiva): o rollback perde as entregas posteriores e não ataca a causa raiz, então a correção real (remover o catch + teste `assertThrows` + suíte verde) fica como dívida técnica.
+
+**Consequência (opção D):** o bug some, junto com as 3 correções feitas durante a semana (clientes percebem os bugs antigos voltando). Corrigir de novo na segunda.
+
+**Placar do grupo após esta decisão:** 🔥 6 · 💰 R$ 15 mil · 🧹 3
+
 ---
 
 ## 🔎 O caminho do MEU grupo (preencher na 3ª aula, quando o mapa for revelado)
