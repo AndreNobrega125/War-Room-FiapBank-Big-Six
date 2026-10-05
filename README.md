@@ -8,25 +8,17 @@
 > **Os incidentes da madrugada são revelados só em aula.** O título de cada registro
 > será **ditado pelo professor na hora**; ninguém se antecipe.
 
-**Grupo (nome da equipe plantonista):** ______________________________________
+**Grupo (nome da equipe plantonista):** Big Six
 
 **Turma:** 2CCPG **Repo:** `cp6-warroom-BIGSIX`
 
-**Integrantes (nome + RM):**
-
-André Ayello de Nobrega RM561754
-Caio Castelão Carminato RM563630
-Guilherme Vasques Tamai RM563276
-Mirella Mascarenhas RM562092
-Vitor Komura de Freitas RM563694
-
-|| Integrante | RM | Turma |
+| Integrante | RM | Turma |
 |---|---|---|
 | Guilherme Vasques Tamai | RM563276 | 2CCPG |
 | Mirella Mascarenhas | RM562092 | 2CCPG |
 | Caio Castelão Carminato | RM563630 | 2CCPG |
 | Vitor Komura de Freitas | RM563694 | 2CCPG |
-| André Ayello de Nobrega | RM561754 | 2CCPG |
+| André Ayello de Nóbrega | RM561754 | 2CCPG |
 
 ## 0. Setup do repositório (antes da 1ª aula; podem apagar esta seção depois)
 
