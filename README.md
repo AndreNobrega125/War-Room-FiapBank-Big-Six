@@ -10,17 +10,23 @@
 
 **Grupo (nome da equipe plantonista):** ______________________________________
 
-**Turma:** ____________ **Repo:** `cp6-warroom-____________________`
+**Turma:** 2CCPG **Repo:** `cp6-warroom-BIGSIX`
 
 **Integrantes (nome + RM):**
 
-| Nome | RM |
-|---|---|
-| | |
-| | |
-| | |
-| | |
-| | |
+André Ayello de Nobrega RM561754
+Caio Castelão Carminato RM563630
+Guilherme Vasques Tamai RM563276
+Mirella Mascarenhas RM562092
+Vitor Komura de Freitas RM563694
+
+|| Integrante | RM | Turma |
+|---|---|---|
+| Guilherme Vasques Tamai | RM563276 | 2CCPG |
+| Mirella Mascarenhas | RM562092 | 2CCPG |
+| Caio Castelão Carminato | RM563630 | 2CCPG |
+| Vitor Komura de Freitas | RM563694 | 2CCPG |
+| André Ayello de Nobrega | RM561754 | 2CCPG |
 
 ## 0. Setup do repositório (antes da 1ª aula; podem apagar esta seção depois)
 
