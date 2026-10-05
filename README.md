@@ -110,6 +110,30 @@ Escolhemos o **rollback para a versão de terça** porque o incidente estava ati
 
 **Placar do grupo após esta decisão:** 🔥 6 · 💰 R$ 15 mil · 🧹 3
 
+## Evento Relâmpago A (20h10): GET por titular devolve lista vazia
+
+**Tipo:** relâmpago · **Voto:** B (usar a derived query `findByTitular` do repository)
+
+**Justificativa:**
+
+O `==` entre Strings em Java compara **referências de objeto**, não conteúdo: o nome vindo da requisição e o `titular` carregado do banco são instâncias distintas, então o filtro manual no controller nunca casa e o GET devolve `[]`. Escolhemos a derived query `findByTitular`, que já existia no `ContaRepository` sem uso. Ela delega o filtro ao banco com SQL de **parâmetros vinculados**, respeita a regra de consultas sempre parametrizadas e evita carregar todas as contas em memória. O trade-off é uma mudança um pouco maior que trocar `==` por `equals`, mas corrige a causa (filtro no lugar errado) e não só o sintoma.
+
+**Consequência (opção B):** o caminho da arquitetura: o banco filtra por parâmetros vinculados e mata um incidente que ainda não aconteceu (a injeção SQL da Rodada 2). 🔥 +1.
+
+**Placar do grupo após esta decisão:** 🔥 7 · 💰 R$ 15 mil · 🧹 3
+
+## Rodada 2: A injeção que derreteu o banco (21h02)
+
+**Tipo:** rodada · **Voto:** D (usar a derived query `findByTitular` do Spring Data JPA)
+
+**Justificativa:**
+
+O alerta mostrou `SELECT * FROM contas WHERE titular = '' OR '1'='1'` retornando todas as contas: **SQL Injection** causada por concatenação de String no JDBC puro (Aula 12). Nosso endpoint já usava `findByTitular` desde o Relâmpago A, que gera SQL com **parâmetros vinculados**: o valor digitado é tratado como dado, nunca como código, e `' OR '1'='1` vira só um nome sem correspondência. Escolhemos a D por ser a solução estrutural (abstração correta, repository já tinha a query pronta), em vez do `PreparedStatement` manual (A), da blocklist (C), que é contornável, ou de tirar a busca do ar (B), que derrubaria o atendimento na Black Friday. O trade-off é demorar ~50 min a mais que a A, em troca de eliminar a concatenação de vez e reduzir dívida técnica.
+
+**Consequência (opção D):** o caminho da arquitetura: usa a abstração certa (o repository já tinha a query pronta). Demora ~50 min, mais que A. Efeitos: 🔥 0 · 💰 0 · 🧹 −1.
+
+**Placar do grupo após esta decisão:** 🔥 7 · 💰 R$ 15 mil · 🧹 2
+
 ---
 
 ## 🔎 O caminho do MEU grupo (preencher na 3ª aula, quando o mapa for revelado)
