@@ -194,6 +194,18 @@ O teste `tedDeveCobrarTaxaDe5Reais` falha porque o serviço usa `double taxa = 5
 
 **Placar do grupo após esta decisão:** 🔥 7 · 💰 R$ 50 mil · 🧹 2
 
+## Evento Relâmpago E (05h58): "A taxa é 5 ou 50?"
+
+**Tipo:** relâmpago · **Voto:** C (reproduzir com um teste antes de responder)
+
+**Justificativa:**
+
+O gerente tem um minuto para responder à imprensa, e o código (`taxa = 50.00`) contradiz o contrato (R$ 5,00). Como na R6 subimos com o teste `tedDeveCobrarTaxaDe5Reais` desabilitado, não temos evidência atual sobre qual valor está em produção. Escolhemos **reproduzir com um teste antes de responder**: o teste é a especificação executável do contrato e transforma opinião em evidência. Confiar no código (A) confirmaria publicamente uma cobrança indevida, e responder pela documentação sem conferir (B) é chutar com autoridade. O trade-off é gastar poucos minutos de um prazo apertado, em troca de uma resposta pública baseada em fato e de entrar no Go/No-Go sabendo da taxa.
+
+**Consequência (opção C):** o teste dá evidência: a equipe entra no go/no-go sabendo da taxa. Efeitos: 🔥 +1.
+
+**Placar do grupo após esta decisão:** 🔥 8 · 💰 R$ 50 mil · 🧹 2
+
 ---
 
 ## 🔎 O caminho do MEU grupo (preencher na 3ª aula, quando o mapa for revelado)
