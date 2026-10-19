@@ -158,6 +158,18 @@ O extrato de transferência é gravado com `origem` e `destino` **trocados** na 
 
 **Placar do grupo após esta decisão:** 🔥 8 · 💰 R$ 50 mil · 🧹 1
 
+## Rodada 5: A fábrica que devolve null (01h30)
+
+**Tipo:** rodada · **Voto:** A (fail-fast: exceção clara na factory)
+
+**Justificativa:**
+
+O `ContaFactory.criar()` devolve `null` no `default` do `switch` quando o tipo é desconhecido (`UNIVERSITARIA`), e o `null` só explode muito depois, no `save()` do repository, com a mensagem "Entity must not be null", que não cita a causa real. Escolhemos o **fail-fast**: lançar uma exceção clara na própria factory ("Tipo de conta inválido: UNIVERSITARIA"), de modo que o erro nasce e morre no mesmo lugar, perto da causa, e o cliente e o suporte recebem uma mensagem que explica o problema. Validar só no controller (B) deixa a validação espalhada: outro endpoint que esquecer de validar traz o `null` de volta. Devolver CORRENTE por padrão (C) esconde o erro e abre contas erradas para os clientes. Tirar a conta da campanha (D) faz o erro sumir sem corrigir a causa no código. O trade-off é cerca de 30 min e uma pequena queda de reputação agora (o cadastro da Universitária continua recusado, mas com erro claro), em troca de um sistema que falha de forma previsível e sem dívida técnica.
+
+**Consequência (opção A):** a factory rejeita na hora com "Tipo de conta inválido: UNIVERSITARIA": o erro nasce e morre no mesmo lugar (~30 min). Efeitos: 🔥 −1 · 💰 0 · 🧹 0.
+
+**Placar do grupo após esta decisão:** 🔥 7 · 💰 R$ 50 mil · 🧹 1
+
 ---
 
 ## 🔎 O caminho do MEU grupo (preencher na 3ª aula, quando o mapa for revelado)
