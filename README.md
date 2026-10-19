@@ -282,4 +282,4 @@ Teste é contrato executável: desligar o alarme (`@Disabled`) ou ajustar o test
 
 ## 5. Uma palavra para a madrugada
 
-**Contrato**
+**Satisfeitos**
