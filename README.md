@@ -226,52 +226,60 @@ Toda falha da noite passou pelo mesmo ponto: o `TransferenciaService`, com ~80 l
 
 ---
 
-## 🔎 O caminho do MEU grupo (preencher na 3ª aula, quando o mapa for revelado)
+## 🔎 O caminho do MEU grupo
 
-Uma linha por decisão registrada acima (usem os títulos ditados em aula):
-
-| # | Decisão | Nossa letra | Consequência que ELA teria tido |
+| # | Decisão | Nossa letra | Consequência que ELA teve |
 |---|---|---|---|
-| | | | |
-| | | | |
-| | | | |
+| 1 | R1 · O saldo que virou negativo | D | O rollback fez o bug sumir, junto com as 3 correções da semana (clientes perceberam bugs antigos voltando). 🔥 −1 · 💰 15 · 🧹 +1 |
+| 2 | ⚡A · A busca que não acha ninguém | B | `findByTitular` com parâmetros vinculados: matou um incidente que ainda não tinha acontecido. 🔥 +1 |
+| 3 | R2 · A injeção que derreteu o banco | D | Abstração certa (o repository já tinha a query), ~50 min a mais que a A. 🔥 0 · 💰 0 · 🧹 −1 |
+| 4 | R3 · A noite das contas gêmeas | D | Sequence no banco, ~1h de migração de madrugada: a unicidade passou a ser garantida pelo banco. 🔥 0 · 💰 +10 · 🧹 0 |
+| 5 | R4 · O comprovante que aponta pra pessoa errada | B | Corrigiu a gravação e reprocessou o histórico (~2h): integridade total. 🔥 +1 · 💰 +25 · 🧹 −1 |
+| 6 | R5 · A fábrica que devolve null | A | Fail-fast: o erro nasce e morre na factory (~30 min). 🔥 −1 · 💰 0 · 🧹 0 |
+| 7 | ⚡C · O cadastro com metade dos campos | B | Builder concentrou defaults e validação no `build()`. 🧹 0 |
+| 8 | R6 · O teste vermelho às 03h45 | A | Subiu na janela com o teste `@Disabled`: alarme desligado, taxa de R$ 50 no ar. 🔥 0 · 💰 0 · 🧹 +1 |
+| 9 | ⚡E · A taxa é 5 ou 50? | C | O teste deu evidência: entramos no Go/No-Go sabendo da taxa. 🔥 +1 |
+| 10 | R7 · Go/No-Go da Black Friday | B | Revisando o serviço, o time viu a taxa de R$ 50 e consertou antes de abrir. 🔥 +1 · 💰 +40 · 🧹 −1 |
 
-*(adicionem linhas conforme as decisões da madrugada)*
+**Placar final:** 🔥 9 · 💰 R$ 90 mil · 🧹 1 · **Perfil:** A Noite dos Heróis
 
 ---
 
-# 📋 PÓS-MORTEM · relatório de incidente (montar em sala na 3ª aula)
-
-> Rascunho em aula e commit final `pos-mortem:` até 23h59 do dia da 3ª aula.
+# 📋 PÓS-MORTEM · relatório de incidente
 
 ## 1. Linha do tempo da madrugada
 
-_______________________________________________________________________________________
-
-_______________________________________________________________________________________
-
-_______________________________________________________________________________________
+- **19h12 · R1:** clientes com saldo negativo. Causa: exceção de saldo insuficiente engolida por um `catch`. Optamos pelo rollback, que também desfez 3 correções da semana.
+- **20h10 · ⚡A:** busca por titular devolvia lista vazia (`==` entre Strings). Passamos a usar `findByTitular`.
+- **21h02 · R2:** tentativa de SQL Injection (`OR '1'='1'`) por concatenação de SQL. Nosso endpoint já usava parâmetros vinculados; consolidamos na derived query.
+- **22h50 · R3:** duas contas com o número 1001 (Singleton sem instância guardada). Numeração delegada a uma sequence do banco.
+- **00h47 · R4:** comprovante com origem e destino invertidos. Corrigimos a gravação e reprocessamos o histórico.
+- **01h30 · R5:** `ContaFactory` devolvia `null` para tipo desconhecido. Adotamos fail-fast.
+- **02h20 · ⚡C:** cadastro com só nome e saldo. Adotamos o Builder.
+- **03h45 · R6:** teste da taxa TED vermelho (taxa 50 contra contrato 5). Subimos com o teste `@Disabled`.
+- **05h58 · ⚡E:** a imprensa perguntou se a TED custa R$ 5 ou R$ 50. Reproduzimos com um teste antes de responder.
+- **06h15 · R7:** Go/No-Go. Corrigimos o que a noite revelou, com a suíte verde, e abrimos 2h atrasados.
+- **07h00 · Epílogo:** 🔥 9 · 💰 R$ 90 mil · 🧹 1, perfil A Noite dos Heróis.
 
 ## 2. Causa raiz de 2 incidentes (aula + mecanismo técnico)
 
-**Incidente 1:** _______________________________________________
+**Incidente 1:** R1 · O saldo que virou negativo
 
-Aula/mecanismo:
+Aula/mecanismo: **exceção lançada e engolida pelo `catch` no próprio método (Aula 11)**. O `if` lançava `SaldoInsuficienteException`, mas o `catch` vazio a engolia, e o `debitar()` ficava fora do `try`, então rodava sempre e o saldo ficava negativo, com a API devolvendo "sucesso" para o que devia ser recusado.
 
-_______________________________________________________________________________________
+**Incidente 2:** R3 · A noite das contas gêmeas
 
-**Incidente 2:** _______________________________________________
-
-Aula/mecanismo:
-
-_______________________________________________________________________________________
+Aula/mecanismo: **Singleton sem instância guardada (Aula 14)**. O `getInstancia()` retornava `new GeradorNumeroConta()` a cada chamada, então o contador recomeçava em 1001 e dois clientes receberam o mesmo número de conta, que é identificador único perante o Bacen.
 
 ## 3. O que faríamos diferente (2 rodadas + por quê)
 
-_______________________________________________________________________________________
-
-_______________________________________________________________________________________
+- **R1 (voto D → C):** o rollback desfez 3 correções da semana e fez clientes verem bugs antigos voltando. Corrigir a causa (remover o `catch` engolindo a exceção) com um teste `assertThrows` teria barrado a regressão sem perder as correções.
+- **R6 (voto A → B):** subir com o teste `@Disabled` silenciou o único alarme que apontava o contrato violado (taxa de R$ 50 contra R$ 5). O ⚡E e o Go/No-Go mostraram o custo de seguir com a suíte doente; investigar na hora teria custado a janela de deploy, mas evitaria a taxa errada no ar.
 
 ## 4. A maior lição da equipe
 
-_______________________________________________________________________________________
+Teste é contrato executável: desligar o alarme (`@Disabled`) ou ajustar o teste ao código esconde o bug em vez de resolvê-lo, e quase todo incidente da noite nasceu de um erro silenciado (exceção engolida, `null`, teste ignorado).
+
+## 5. Uma palavra para a madrugada
+
+**Contrato**
