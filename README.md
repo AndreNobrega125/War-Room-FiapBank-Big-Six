@@ -170,6 +170,18 @@ O `ContaFactory.criar()` devolve `null` no `default` do `switch` quando o tipo �
 
 **Placar do grupo após esta decisão:** 🔥 7 · 💰 R$ 50 mil · 🧹 1
 
+## Evento Relâmpago C (02h20): O cadastro com metade dos campos
+
+**Tipo:** relâmpago · **Voto:** B (Builder com valores padrão)
+
+**Justificativa:**
+
+O marketing quer cadastrar só com nome e saldo, mas o construtor atual exige todos os campos. Isso é o problema do **telescoping constructor** (Aula 14): cada combinação de campos opcionais pede um construtor novo, e a classe cresce sem controle. Escolhemos o **Builder (Builder Pattern)**, que concentra os valores padrão e a validação no `build()`, deixando a criação do objeto legível e cada campo opcional explícito. Mais um construtor sobrecarregado (A) só empurra o telescópio para frente, e aceitar `null` nos campos (C) espalha `NullPointerException` pelo sistema, o mesmo defeito da factory que devolvia `null` na Rodada 5. O trade-off é escrever uma classe a mais agora, em troca de não acumular dívida técnica a cada novo cadastro.
+
+**Consequência (opção B):** o Builder concentra defaults e validação no `build()`. Efeitos: 🧹 0.
+
+**Placar do grupo após esta decisão:** 🔥 7 · 💰 R$ 50 mil · 🧹 1
+
 ---
 
 ## 🔎 O caminho do MEU grupo (preencher na 3ª aula, quando o mapa for revelado)
