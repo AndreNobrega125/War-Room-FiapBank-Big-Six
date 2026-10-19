@@ -218,6 +218,12 @@ Toda falha da noite passou pelo mesmo ponto: o `TransferenciaService`, com ~80 l
 
 **Placar do grupo após esta decisão:** 🔥 9 · 💰 R$ 90 mil · 🧹 1
 
+## 🌅 Epílogo: amanhece a Black Friday (07h00)
+
+**Placar final (congelado):** 🔥 9 · 💰 R$ 90 mil · 🧹 1
+
+**Perfil da noite: A Noite dos Heróis** (🔥 7 ou mais e 🧹 até 2): banco abriu, clientes confiam, time dorme (quase) em paz. Não se aplicam "O Preço da Pressa" (💰 abaixo de 400) nem "Firefighters Crônicos" (🧹 abaixo de 6).
+
 ---
 
 ## 🔎 O caminho do MEU grupo (preencher na 3ª aula, quando o mapa for revelado)
