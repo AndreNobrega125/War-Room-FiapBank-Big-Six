@@ -146,6 +146,18 @@ O `getInstancia()` retorna `new GeradorNumeroConta()` a cada chamada: é um **Si
 
 **Placar do grupo após esta decisão:** 🔥 7 · 💰 R$ 25 mil · 🧹 2
 
+## Rodada 4: O comprovante que aponta pra pessoa errada (00h47)
+
+**Tipo:** rodada · **Voto:** B (corrigir + reprocessar os extratos antigos)
+
+**Justificativa:**
+
+O extrato de transferência é gravado com `origem` e `destino` **trocados** na chamada do construtor `new Transferencia(tipo, destino.getNumero(), origem.getNumero(), valor, taxa)`: como os argumentos são posicionais e do mesmo tipo, a troca compila e passa sem erro, e só aparece no comprovante. Os saldos estão certos; o defeito é só no **registro**. O contrato exige que o extrato grave quem pagou e quem recebeu, na ordem certa, e o comprovante é a prova perante o cliente e a auditoria. Escolhemos **corrigir a gravação e reprocessar o histórico**: corrigir só daqui para frente (A) deixaria comprovantes já emitidos errados, uma dívida de dados que a auditoria encontraria. Comunicar e reemitir pela 2ª via (C) deixa o sistema errado e joga o custo no SAC. Deixar para depois (D) mantém o erro público na Black Friday. O trade-off é gastar cerca de 2h e arcar com mais prejuízo agora, em troca de integridade total dos dados e menos dívida técnica.
+
+**Consequência (opção B):** corrige a gravação e reprocessa o histórico (~2h): os comprovantes já emitidos voltam certos, com integridade total. Efeitos: 🔥 +1 · 💰 +25 · 🧹 −1.
+
+**Placar do grupo após esta decisão:** 🔥 8 · 💰 R$ 50 mil · 🧹 1
+
 ---
 
 ## 🔎 O caminho do MEU grupo (preencher na 3ª aula, quando o mapa for revelado)
