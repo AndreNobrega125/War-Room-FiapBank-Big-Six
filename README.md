@@ -182,6 +182,18 @@ O marketing quer cadastrar só com nome e saldo, mas o construtor atual exige to
 
 **Placar do grupo após esta decisão:** 🔥 7 · 💰 R$ 50 mil · 🧹 1
 
+## Rodada 6: O teste vermelho às 03h45 (a janela fecha às 04h)
+
+**Tipo:** rodada · **Voto:** A (`@Disabled` no teste e subir na janela)
+
+**Justificativa:**
+
+O teste `tedDeveCobrarTaxaDe5Reais` falha porque o serviço usa `double taxa = 50.00`, um **número mágico** sem constante nem comentário, enquanto o contrato define a TED em R$ 5,00. A janela de deploy fecha às 04h (congelamento para a Black Friday) e a campanha abre às 08h sem exceções, e o fix da R1 mais as correções da noite precisam subir hoje. Escolhemos **subir na janela com o teste marcado `@Disabled("conferir taxa com o gerente")`**, priorizando a **velocidade de entrega** das correções críticas. Assumimos o risco de forma explícita: o teste desligado é um alarme silenciado e a taxa de R$ 50 segue no ar, dez vezes o valor do contrato. Subir com a suíte vermelha (C) normalizaria o vermelho no time, e ajustar o teste para 50.0 (D) faria a suíte confirmar o bug. Investigar agora (B) custaria a janela e adiaria as correções para depois da abertura. O trade-off é velocidade e correções no ar contra dívida técnica e uma taxa possivelmente errada em produção.
+
+**Consequência (opção A):** sobe na janela; o teste fica `@Disabled("conferir taxa com o gerente")`: alarme desligado. A taxa de R$ 50 segue no ar. Efeitos: 🔥 0 · 💰 0 · 🧹 +1.
+
+**Placar do grupo após esta decisão:** 🔥 7 · 💰 R$ 50 mil · 🧹 2
+
 ---
 
 ## 🔎 O caminho do MEU grupo (preencher na 3ª aula, quando o mapa for revelado)
