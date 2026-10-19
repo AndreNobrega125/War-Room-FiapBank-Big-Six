@@ -206,6 +206,18 @@ O gerente tem um minuto para responder à imprensa, e o código (`taxa = 50.00`)
 
 **Placar do grupo após esta decisão:** 🔥 8 · 💰 R$ 50 mil · 🧹 2
 
+## Rodada 7: Go/No-Go da Black Friday (06h15)
+
+**Tipo:** rodada · **Voto:** B (corrigir o que a noite revelou + suíte verde, abrir 2h atrasado)
+
+**Justificativa:**
+
+Toda falha da noite passou pelo mesmo ponto: o `TransferenciaService`, com ~80 linhas que ninguém entende inteiro (saldo, taxa, extrato e numeração juntos). É uma classe com **muitas responsabilidades**, o que a torna difícil de testar e fácil de quebrar. Nossa suíte está doente desde a R6 (teste da taxa TED `@Disabled`, taxa de R$ 50 contra os R$ 5 do contrato) e o ⚡E confirmou a divergência. Escolhemos **corrigir o que a noite revelou, ter a suíte verde de verdade e abrir 2h atrasado**. Abrir 100% como está (A) colocaria no ar uma cobrança errada que já conhecemos, com risco de estornos e churn. Modo degradado (C) deixaria a taxa errada escondida até a TED voltar, e adiar para segunda (D) perde a campanha inteira. O trade-off é perder o início do pico e aceitar prejuízo agora, em troca de entrar na Black Friday com o contrato cumprido e menos dívida técnica.
+
+**Consequência (opção B, suíte doente):** ao revisar o serviço, o time enxerga a taxa de R$ 50 e conserta antes de abrir: as 2h doeram menos que a taxa doeria. Efeitos: 🔥 +1 · 💰 +40 · 🧹 −1.
+
+**Placar do grupo após esta decisão:** 🔥 9 · 💰 R$ 90 mil · 🧹 1
+
 ---
 
 ## 🔎 O caminho do MEU grupo (preencher na 3ª aula, quando o mapa for revelado)
